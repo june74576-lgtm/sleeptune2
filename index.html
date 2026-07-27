@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Tune — El Primer Dispositivo Inteligente de Recuperación Sensoria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5c3d75;
+            --primary-dark: #3b244d;
+            --accent: #8b5cf6;
+            --bg-color: #0f0b15;
+            --surface: #1a1423;
+            --surface-glass: rgba(26, 20, 35, 0.7);
+            --text-main: #f3f0f7;
+            --text-muted: #b8b0c5;
+            --border: rgba(139, 92, 246, 0.2);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Top Banner */
+        .top-banner {
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--accent));
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(15, 11, 21, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 5%;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: transform 0.3s ease, background 0.3s ease, border 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .btn-nav {
+            background: var(--accent);
+            color: white !important;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 600 !important;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+            transition: transform 0.3s ease, background 0.3s ease, border 0.3s ease;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6);
+        }
+
+        /* Hero Section */
+        header.hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 140px 5% 80px;
+            background: radial-gradient(circle at 70% 30%, rgba(92, 61, 117, 0.3) 0%, transparent 60%),
+                        radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                        var(--bg-color);
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 50px;
+            align-items: center;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #fff 30%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 35px;
+            line-height: 1.5;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--border);
+            padding: 6px 16px;
+            border-radius: 30px;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 1.05rem;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            transition: transform 0.3s ease, background 0.3s ease, border 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.6);
+        }
+
+        .hero-image-container {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            background: var(--surface);
+        }
+
+        .hero-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease, background 0.3s ease, border 0.3s ease;
+        }
+
+        .hero-image-container:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Problem vs Solution */
+        .section-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 120px 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 80px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            transition: transform 0.3s ease, background 0.3s ease, border 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        /* Value Proposition / Hidden Value */
+        .value-banner {
+            background: linear-gradient(135deg, rgba(92, 61, 117, 0.4), rgba(26, 20, 35, 0.9));
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 60px;
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .value-content h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .value-content p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            margin-bottom: 25px;
+        }
+
+        .value-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .value-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .value-list li span {
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
+
+        /* Technology Specs Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .tech-card {
+            background: var(--surface);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, background 0.3s ease, border 0.3s ease;
+        }
+
+        .tech-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tech-card-body {
+            padding: 30px;
+        }
+
+        .tech-card-body h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .tech-card-body p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+        }
+
+        /* Pricing & Strategy */
+        .pricing-section {
+            background: radial-gradient(circle at center, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pricing-box {
+            background: var(--surface);
+            border: 2px solid var(--accent);
+            border-radius: 30px;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 60px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(139, 92, 246, 0.2);
+            position: relative;
+        }
+
+        .price-tag {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 20px 0;
+            letter-spacing: -2px;
+        }
+
+        .price-tag span {
+            font-size: 1.5rem;
+            color: var(--accent);
+            vertical-align: super;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        /* Distribution & Guarantee */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .info-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .info-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .info-box p, .info-box li {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .info-box ul {
+            list-style: disc;
+            margin-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Footer / Contact Section */
+        footer {
+            background: var(--surface-glass);
+            border-top: 1px solid var(--border);
+            padding: 80px 5% 40px;
+        }
+
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .contact-info p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            font-size: 1.1rem;
+            color: var(--text-main);
+        }
+
+        .contact-details div {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .contact-form {
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+            transition: transform 0.3s ease, background 0.3s ease, border 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease, border 0.3s ease;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.6);
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 0 auto;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @media (max-width: 968px) {
+            .hero-grid, .value-banner, .footer-content {
+                grid-template-columns: 1fr;
+            }
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Announcement Banner -->
+    
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">
+            Sleep<span>Tune</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#problema">El Problema</a></li>
+            <li><a href="#tecnologia">Tecnología</a></li>
+            <li><a href="#precio">Precio</a></li>
+            <li><a href="#experiencia">Reto Sleep Tune</a></li>
+            <li><a href="#contacto" class="btn-nav">Comprar Ahora</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-grid">
+            <div class="hero-content animate">
+                <div class="hero-badge">Biohacking & Descanso Profundo</div>
+                <h1>Apaga el mundo<br>Enciende tu descanso</h1>
+                <p>El primer dispositivo inteligente de recuperación sensorial diseñado para desbloquear la fase REM del sueño profundo y optimizar tu energía diaria.</p>
+                <div class="hero-cta">
+                    <a href="#contacto" class="btn-primary">Adquirir Sleep Tune ($79.99) →</a>
+                </div>
+            </div>
+            <div class="hero-image-container animate">
+                <img src="hero-bg.jpg" alt="Sleep Tune Antifaz Inteligente">
+            </div>
+        </div>
+    </header>
+
+    <!-- Problem & Consequences Section -->
+    <section id="problema" class="section-container">
+        <div class="section-header">
+            <h2>¿Por qué tu descanso está fallando?</h2>
+            <p>La raíz del problema moderno y sus consecuencias directas en tu rendimiento cognitivo y físico.</p>
+        </div>
+        <div class="problem-grid">
+            <div class="card">
+                <div class="card-icon">⚠️</div>
+                <h3>El Problema</h3>
+                <p>Incapacidad crónica de entrar en la fase REM del sueño profundo debido a la contaminación lumínica ambiental y ruidos nocturnos que mantienen el cerebro en estado de alerta.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3>Las Consecuencias</h3>
+                <p>Pérdida severa de concentración, irritabilidad constante, picos de estrés diurno y un progresivo debilitamiento del sistema inmunológico.</p>
+            </div>
+        </div>
+
+        <!-- Hidden Value Banner -->
+        <div class="value-banner">
+            <div class="value-content">
+                <h3>El Valor Oculto</h3>
+                <p>Comprendemos que la verdadera transformación va más allá de un simple antifaz convencional.</p>
+                <ul class="value-list">
+                    <li><span>✦</span> Energía diaria inquebrantable</li>
+                    <li><span>✦</span> Retención superior de información y enfoque</li>
+                    <li><span>✦</span> Optimización biológica del rendimiento personal</li>
+                </ul>
+            </div>
+            <div>
+                <img src="product-colors.jpg" alt="Estilo y Personalidad Sleep Tune" style="width: 100%; border-radius: 16px; border: 1px solid var(--border);">
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Specs Section -->
+    <section id="tecnologia" class="section-container" style="background: rgba(26, 20, 35, 0.3);">
+        <div class="section-header">
+            <h2>Ingeniería y Tecnología Sensorial</h2>
+            <p>Componentes de alta precisión diseñados específicamente para el confort nocturno absoluto.</p>
+        </div>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <img src="feature-1.jpg" alt="Diseño Anatómico 3D">
+                <div class="tech-card-body">
+                    <h3>Diseño Anatómico 3D</h3>
+                    <p>Cavidad cóncava sobre los ojos en espuma viscoelástica (memory foam) que bloquea el 100% de la luz sin ejercer ninguna presión sobre los párpados.</p>
+                </div>
+            </div>
+            <div class="tech-card">
+                <img src="feature-2.jpg" alt="Audio Extraplano">
+                <div class="tech-card-body">
+                    <h3>Audio Extraplano</h3>
+                    <p>Transductores ultradelgados envueltos en tela suave, totalmente imperceptibles e indetectables al dormir de lado o cambiar de postura.</p>
+                </div>
+            </div>
+            <div class="tech-card">
+                <img src="feature-3.jpg" alt="Autonomía y Conectividad">
+                <div class="tech-card-body">
+                    <h3>Autonomía y Conectividad</h3>
+                    <p>Batería de alta eficiencia con 10 horas continuas de reproducción, carga rápida USB-C y conectividad Bluetooth estable.</p>
+                </div>
+            </div>
+            <div class="tech-card">
+                <img src="feature-4.jpg" alt="Ecosistema Digital">
+                <div class="tech-card-body">
+                    <h3>Ecosistema Digital</h3>
+                    <p>Plataforma web propia con futura escalabilidad mediante scripts en Python para audio algorítmico personalizado y ondas binaurales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="precio" class="section-container pricing-section">
+        <div class="section-header">
+            <h2>Inversión Estratégica</h2>
+            <p>Tecnología de recuperación al alcance de tu desarrollo profesional y estudiantil.</p>
+        </div>
+        <div class="pricing-box">
+            <div class="hero-badge">Precio Psicológico</div>
+            <div class="price-tag"><span>$</span>79.99</div>
+            <p style="color: var(--text-muted); font-size: 1.1rem;">Accesible para estudiantes y jóvenes profesionales en busca de alto rendimiento.</p>
+            
+            <ul class="pricing-features">
+                <li>Inversión significativamente menor que tratamientos médicos o audífonos de gama alta incómodos para dormir.</li>
+                <li>Envío prioritario incluido a nivel nacional.</li>
+                <li>Acceso completo al Ecosistema Digital Sleep Tune.</li>
+            </ul>
+
+            <a href="#contacto" class="btn-primary" style="width: 100%; justify-content: center;">Quiero mi Sleep Tune Ahora</a>
+        </div>
+    </section>
+
+    <!-- Distribution & Promotion Section -->
+    <section class="section-container">
+        <div class="section-header">
+            <h2>Estrategia, Garantía y Experiencia</h2>
+            <p>Un modelo diseñado para garantizar tu satisfacción total sin riesgos.</p>
+        </div>
+        <div class="info-grid">
+            <div class="info-box">
+                <h3>📍 Distribución (D2C)</h3>
+                <p><b>Fase 1 (Directo al Consumidor):</b> Tienda online propia vinculada a redes sociales para máximo margen y control absoluto de imagen.</p>
+                <p style="margin-top: 15px;"><b>Fase 2 (Puntos Físicos):</b> Expansión estratégica a cadenas de farmacias, tiendas de conveniencia en aeropuertos y terminales terrestres.</p>
+            </div>
+            <div class="info-box">
+                <h3>📢 Promoción y Atención</h3>
+                <p><b>Promoción Nativa:</b> Alianzas con cuentas de Studygram, fitness y bienestar para educar sobre higiene del sueño y ondas binaurales.</p>
+                <p style="margin-top: 15px;"><b>Persona (Atención al Cliente):</b> Soporte empático que transmite paz y un empaque (unboxing) sumamente cuidado.</p>
+            </div>
+            <div class="info-box" style="border-color: var(--accent);">
+                <h3>🛡️ Garantía "Reto Sleep Tune"</h3>
+                <p>14 días de prueba absoluta.</p>
+                <ul>
+                    <li>Si la calidad de tu sueño profundo no mejora notablemente, se devuelve el 100% de tu dinero sin fricción ni preguntas molestas.</li>
+                    <li>Tu inversión está 100% protegida.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Purchase Section -->
+    <section id="contacto" class="section-container" style="background: rgba(26, 20, 35, 0.5);">
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>Adquiere Sleep Tune Hoy</h3>
+                <p>Da el paso definitivo hacia un descanso inteligente y recupera tu energía real. Completa el formulario de reserva y nuestro equipo te contactará de inmediato.</p>
+                
+                <div class="contact-details">
+                    <div>📧 <b>Email:</b> contacto@sleeptune-tech.com</div>
+                    <div>📞 <b>Teléfono / WhatsApp:</b> +1 (555) 386-8863</div>
+                    <div>🏢 <b>Oficina Central:</b> Innovation Hub, Piso 4, Tech District</div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form onsubmit="event.preventDefault(); alert('¡Gracias por tu reserva! Un asesor de Sleep Tune se pondrá en contacto contigo pronto para completar tu pedido.');">
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo</label>
+                        <input type="text" id="nombre" class="form-control" placeholder="Ej. Juan Pérez" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" class="form-control" placeholder="juan@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono / WhatsApp</label>
+                        <input type="tel" id="telefono" class="form-control" placeholder="+1 (555) 000-0000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ciudad">Ciudad / Dirección de Envío</label>
+                        <input type="text" id="ciudad" class="form-control" placeholder="Ciudad, País" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Reservar con el Reto Sleep Tune ($79.99)</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Sleep Tune. Todos los derechos reservados. El primer dispositivo inteligente de recuperación sensorial.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        let lastScrollTop = 0;
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > 80) {
+                if (scrollTop > lastScrollTop) {
+                    // Scrolling down
+                    nav.style.transform = 'translateY(-100%)';
+                } else {
+                    // Scrolling up
+                    nav.style.transform = 'translateY(0)';
+                }
+            } else {
+                nav.style.transform = 'translateY(0)';
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        });
+    </script>
+</body>
+
+</html>
